@@ -65,77 +65,67 @@
 
 - (NSURLRequest *)_buildRequest
 {
-    NSString *method;
-    
-    switch (_signedRequestMethod) {
-        case TWSignedRequestMethodPOST:
-            method = TW_HTTP_METHOD_POST;
-            break;
-        case TWSignedRequestMethodDELETE:
-            method = TW_HTTP_METHOD_DELETE;
-            break;
-        case TWSignedRequestMethodGET:
-        default:
-            method = TW_HTTP_METHOD_GET;
-    }
-    
-    //  Build our parameter string
-    NSMutableString *paramsAsString = [[NSMutableString alloc] init];
-    [_parameters enumerateKeysAndObjectsUsingBlock:
-     ^(id key, id obj, BOOL *stop) {
-         [paramsAsString appendFormat:@"%@=%@&", key, obj];
-     }];
-    
-    //  Create the authorization header and attach to our request
-    NSData *bodyData = [paramsAsString dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authorizationHeader = OAuthorizationHeader(_url,
-                                                         method,
-                                                         bodyData,
-                                                         [TWSignedRequest
-                                                          consumerKey],
-                                                         [TWSignedRequest
-                                                          consumerSecret],
-                                                         _authToken,
-                                                         _authTokenSecret);
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:_url];
-    [request setHTTPMethod:method];
-    [request setValue:authorizationHeader
-   forHTTPHeaderField:TW_HTTP_HEADER_AUTHORIZATION];
-    [request setHTTPBody:bodyData];
-    
-    return request;
+	NSString *method;
+
+	switch (_signedRequestMethod) {
+		case TWSignedRequestMethodPOST:
+			method = TW_HTTP_METHOD_POST;
+			break;
+		case TWSignedRequestMethodDELETE:
+			method = TW_HTTP_METHOD_DELETE;
+			break;
+		case TWSignedRequestMethodGET:
+		default:
+			method = TW_HTTP_METHOD_GET;
+	}
+
+	//  Build our parameter string
+	NSMutableString *paramsAsString = [[NSMutableString alloc] init];
+	[_parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
+										{
+											[paramsAsString appendFormat:@"%@=%@&", key, obj];
+										}];
+
+	//  Create the authorization header and attach to our request
+	NSData *bodyData = [paramsAsString dataUsingEncoding:NSUTF8StringEncoding];
+	NSString *authorizationHeader = OAuthorizationHeader(_url, method, bodyData,
+														 [TWSignedRequest consumerKey],
+														 [TWSignedRequest consumerSecret],
+														 _authToken, _authTokenSecret);
+
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:_url];
+	[request setHTTPMethod:method];
+	[request setValue:authorizationHeader forHTTPHeaderField:TW_HTTP_HEADER_AUTHORIZATION];
+	[request setHTTPBody:bodyData];
+
+	return request;
 }
 
-- (void)performRequestWithHandler:(TWSignedRequestHandler)handler
+- (void)performRequestWithHandler:(SLRequestHandler)handler
 {
-    dispatch_async(dispatch_get_global_queue
-                   (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                       NSURLResponse *response;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+				   ^{
+					   NSHTTPURLResponse *response;
                        NSError *error;
-                       NSData *data = [NSURLConnection
-                                       sendSynchronousRequest:
-                                       [self _buildRequest]
-                                       returningResponse:&response
-                                       error:&error];
-                       handler(data, response, error);
+                       NSData *data
+					     = [NSURLConnection sendSynchronousRequest:[self _buildRequest]
+												 returningResponse:&response
+															 error:&error];
+						handler(data, response, error);
                    });
 }
 
 // OBFUSCATE YOUR KEYS!
 + (NSString *)consumerKey
 {
-    NSAssert([kTWConsumerKey length] > 0,
-             @"You must enter your consumer key in Build Settings.");
+    NSAssert([kTWConsumerKey length] > 0, @"You must enter your consumer key in Build Settings.");
     return kTWConsumerKey;
 }
 
 // OBFUSCATE YOUR KEYS!
 + (NSString *)consumerSecret
 {
-    NSAssert([kTWConsumerSecret length] > 0,
-             @"You must enter your consumer secret in Build Settings.");
+    NSAssert([kTWConsumerSecret length] > 0, @"You must enter your consumer secret in Build Settings.");
     return kTWConsumerSecret;
 }
 

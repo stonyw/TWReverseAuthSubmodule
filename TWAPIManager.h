@@ -58,7 +58,7 @@ typedef void(^ReverseAuthResponseHandler)(NSData *responseData, NSError *error);
  *      authenticated calls to Twitter.
  */
 - (void)performReverseAuthForAccount:(ACAccount *)account
-                         withHandler:(ReverseAuthResponseHandler)handler;
+                         withHandler:(SLRequestHandler)handler;
 
 /**
  *  Returns an instance of either SLRequest or TWRequest, depending on runtime
