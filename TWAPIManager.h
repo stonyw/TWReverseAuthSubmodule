@@ -25,6 +25,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Social/SLRequest.h>
 
 //  The SLRequest and TWRequest share method signatures, so we can use this
 //  protocol to hush any compiler warnings

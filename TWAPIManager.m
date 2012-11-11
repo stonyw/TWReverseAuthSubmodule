@@ -44,8 +44,7 @@
 {
     //  checks to see if we have Social.framework
     if ([SLComposeViewController class])
-        return [SLComposeViewController
-                isAvailableForServiceType:SLServiceTypeTwitter];
+        return [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter];
 
 	return [TWTweetComposeViewController canSendTweet];
 }
