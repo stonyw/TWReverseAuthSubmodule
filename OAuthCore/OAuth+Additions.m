@@ -60,8 +60,10 @@
 {
     CFUUIDRef u = CFUUIDCreate(kCFAllocatorDefault);
     CFStringRef s = CFUUIDCreateString(kCFAllocatorDefault, u);
+	NSString* n = ((__bridge NSString *)s).copy;
     CFRelease(u);
-    return (__bridge NSString *)s;
+	CFRelease(s);
+    return n;
 }
 
 @end
