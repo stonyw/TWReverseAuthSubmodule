@@ -32,8 +32,8 @@
 #define TW_HTTP_METHOD_DELETE @"DELETE"
 #define TW_HTTP_HEADER_AUTHORIZATION @"Authorization"
 
-#define kTWConsumerKey  @"7NBdCqDooplh5QpVfBEVWA"
-#define kTWConsumerSecret  @"9flm4c6eQA4gceSf0ubPOK6hqAgii0idx1pgSnGIwAM"
+//#define kTWConsumerKey  @""
+//#define kTWConsumerSecret  @""
 
 @interface TWSignedRequest()
 
