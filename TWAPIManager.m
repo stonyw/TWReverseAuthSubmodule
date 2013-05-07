@@ -186,10 +186,11 @@
 
     [step1Request performRequestWithHandler:
 			 ^(NSData *data, NSHTTPURLResponse *urlResponse, NSError *error) {
-				 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-								^{
-									completion(data, urlResponse, error);
-								});
+//				 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+//								^{
+//									completion(data, urlResponse, error);
+//								});
+                 completion(data, urlResponse, error);
 	}];
 }
 

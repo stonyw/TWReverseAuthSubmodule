@@ -32,15 +32,14 @@
 #define TW_HTTP_METHOD_DELETE @"DELETE"
 #define TW_HTTP_HEADER_AUTHORIZATION @"Authorization"
 
-#define kTWConsumerKey TWITTER_CONSUMER_KEY
-#define kTWConsumerSecret TWITTER_CONSUMER_SECRET
+#define kTWConsumerKey  @"7NBdCqDooplh5QpVfBEVWA"
+#define kTWConsumerSecret  @"9flm4c6eQA4gceSf0ubPOK6hqAgii0idx1pgSnGIwAM"
 
 @interface TWSignedRequest()
-{
-    NSURL *_url;
-    NSDictionary *_parameters;
-    TWSignedRequestMethod _signedRequestMethod;
-}
+
+@property (nonatomic, retain) NSURL *url;
+@property (nonatomic, retain) NSDictionary *parameters;
+@property (nonatomic, assign) TWSignedRequestMethod signedRequestMethod;
 
 - (NSURLRequest *)_buildRequest;
 
@@ -56,9 +55,9 @@
 {
     self = [super init];
     if (self) {
-        _url = url;
-        _parameters = parameters;
-        _signedRequestMethod = requestMethod;
+        self.url = url;
+        self.parameters = parameters;
+        self.signedRequestMethod = requestMethod;
     }
     return self;
 }
